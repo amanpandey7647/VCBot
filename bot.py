@@ -5,6 +5,7 @@ from decouple import config
 import logging
 from helpers import play_a_song, Text
 from os import remove
+import os
 import youtube_dl
 from youtube_search import YoutubeSearch
 import requests
@@ -19,11 +20,11 @@ logging.basicConfig(
 
 logging.info("Starting...")
 try:
-    SESSION = config("SESSION")
-    API_ID = config("API_ID")
-    API_HASH = config("API_HASH")
-    SUDOS = config("SUDOS")
-    PREFIX = config("PREFIX", default="!")
+    SESSION = os.environ.get("SESSION", None)
+    API_ID = os.environ.get("API_ID", None)
+    API_HASH = os.environ.get("API_HASH", None)
+    SUDOS = os.environ.get("SUDOS", None)
+    PREFIX = os.environ.get("PREFIX", ".")
 except Exception as e:
     logging.warning("Environment variables are missing!")
     logging.warning(f"\n{e}")
@@ -48,7 +49,7 @@ pycalls = Wrapper(pytgcalls, "raw")
 @client.on_message(filters.command("on", PREFIX) & filters.user(SUDO))
 async def online(_, message):
     await message.reply_text(
-        f"**I'm on.**\n{Text.how_to}\n\nRepo: [GitHub](https://github.com/xditya/VCBot)",
+        f"**I'm on.**\n{Text.how_to}\n\nRepo: [GitHub](https://github.com/Noob-Stranger/andencento)",
         disable_web_page_preview=True,
     )
 
